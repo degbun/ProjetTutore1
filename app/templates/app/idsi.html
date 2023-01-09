@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block content %}  
+
+
+
+  <form method="post" action="">
+    {% csrf_token %}
+
+      <!-- Container Fluid-->
+      <div class="container-fluid" id="container-wrapper">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Reservations faites par l'IDSI</h1>
+         
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <!-- Form Basic -->
+         
+
+           
+            <!-- Horizontal Form -->
+            <div class="form-row">
+
+              <div class="form-group col-md-4">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Salle</label>
+                <select name="salle" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  
+                  {% for sal in sal  %}
+                  <option  value='{{sal.nomSl}}'>{{sal.nomSl}}</option>
+
+                  {% endfor %}
+                </select>
+              </div>
+              
+              <div class="form-group col-md-4">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Classe</label>
+                <select name="classe" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  
+                  
+                  
+                  <option value="Master1_ds">Master1_ds</option>
+                  <option value="Master2_ds">Master2_ds</option>
+                  <option value="Master1_csi">Master1_csi</option>
+                  <option value="Master2_csi">Master2_csi</option>
+
+                  
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Motif</label>
+                <select  name="motif" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  <option value="motif">choisir le motif</option>
+                  <option value="cours">Cours</option>
+                  <option value="kaggle">Kaggle</option>
+                  <option value="tp">TP</option>
+                  <option value="devoir">Devoir</option>
+                </select>
+                {% if motif_error %}
+                <p style="color:red">{{motif_error}}</p>
+                {% endif %}
+              </div>
+            </div>
+            <!-- Horizontal Form -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Matière</label>
+                <select name="matiere" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                 
+                  {% for mat in mat  %}
+                  <option  value={{mat.nomMt}}>{{mat.nomMt}}</option>
+  
+                  {% endfor %}
+                </select>
+                {% if matiere_error %}
+                <p style="color:red">{{matiere_error}}</p>
+                {% endif %}
+              </div>
+              <div class="form-group col-md-6">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Intervenant</label>
+                <select  name="intervenant" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                  <option  value="intervenant">choisir l'intervenant</option>
+                  <option value="M.KADJO TANON">M.KADJO TANON</option>
+                  <option value="M.TANON TANON">M.TANON TANON</option>
+                  <option value="M.ALLA AHUI">M.ALLA AHUI</option>
+                  <option value="M.MONSAN VINCENT">M.MONSAN VINCENT</option>
+                  
+                  
+                </select>
+                {% if intervenant_error %}
+                <p style="color:red">{{intervenant_error}}</p>
+                {% endif %}
+              </div>
+            </div>
+  
+            <div class="form-row ">
+            
+            <div class='col-md-12'>
+
+              <div class="form-group" id="simple-date4">
+                <label for="dateRangePicker">Date début/Date fin</label>
+                <div class="input-daterange input-group">
+                  <input type="datetime-local" class="input-sm form-control" name="debut" />
+                  
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">to</span>
+                  </div>
+                  <input type="datetime-local" class="input-sm form-control" name="fin" />
+                  
+                </div>
+                {% if datedebut_error or datefin_error or date_error %}
+                <p style="color:red"> {{datefin_error}}  {{date_error}} {{datedebut_error}}</p>
+                {% endif %}
+              </div>
+              
+
+
+            </div>
+
+            </div>
+           
+            <button type="submit" class="btn btn-primary col-md-12">Valider</button>
+          </div>
+
+     
+              
+     
+
+ 
+        <!--Row-->
+
+        
+
+    
+      </div>
+      <!---Container Fluid-->
+    </form> 
+
+    
+    {% for msg in messages  %}
+          
+    <div class="alert alert-success col-12" role="alert" id='alert'>
+      {{msg}}
+    </div>
+    {% endfor %}
+
+
+
+
+
+{% endblock content %}
