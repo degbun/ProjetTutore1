@@ -31,23 +31,32 @@
                       <th>Nom de l'utilisateur</th>
                       <th>Salle occupée</th>
                       <th>Motif</th>
-                      <th>Durée</th>
+                      
+                      <th>Date début</th>
+                      <th>Date fin</th>
                       <th>Action</th>
                       
                     </tr>
                   </thead>
                  
                   <tbody>
-                    {%  for occ in occupe %}
-                    
+                    {%  for occ in occupe  %}
+                      
 
                         <tr>
                       
                           <td>{{occ.utilisateur.nomUt}}</td>
                           <td>{{occ.salle.nomSl}}</td>
                           <td>{{occ.activite.nomAt}}</td>
-                          <td>61</td>
-                          <td>{{occ.debut }}</td>
+                          
+                          <td>{{occ.debut|date:"D d M Y H:i" }}</td>
+                          <td>{{occ.fin|date:"D d M Y H:i" }}</td>
+                          
+                          <td><div class="btn-group" role="group" aria-label="Basic example"> <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#voir{{forloop.counter}}" ><i class="fa-solid fa-eye"></i>
+                              <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#edit{{forloop.counter}}"><i class="fa-solid fa-pen-to-square"></i></button>
+                              <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#delete{{forloop.counter}}"><i class="fa-solid fa-trash"></i></button>  
+                          </div>
+                          </button></td>
                       
                         </tr>
                       {% endfor %}
@@ -87,6 +96,488 @@
 
       </div>
       <!---Container Fluid-->
+
+      
+        {%  for occ in occupe  %}
+
+
+          <!---modal sur view-->
+            <div class="modal fade" id="voir{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div  style="background-color:rgb(10, 118, 113); color:aliceblue"class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Détails</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <p>  Nom de l'utilisateur: {{occ.utilisateur.nomUt}}</p>
+                    <p>  Salle occupée: {{occ.salle.nomSl}}</p>
+                    <p>  Motif: {{occ.activite.nomAt}}</p>
+                    <p>  Date début: {{occ.debut}}</p>
+                    <p>  Date fin: {{occ.fin}}</p>
+                    <p> Nom de l'intervenant : {{occ.activite.intervenantAt}}</p>
+                    {% if occ.activite.matiere.nomMt %}
+                        <p> Matière : {{occ.activite.matiere.nomMt}}</p>
+                    {% endif%}
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn " data-dismiss="modal">Fermer</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!---modal sur view-->
+
+
+
+
+            <div class="modal fade bd-example-modal-xl"  id="edit{{forloop.counter}}"  tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+
+
+
+                              {% if occ.activite.matiere   %}
+                                <form method="post" action="">
+                                  {% csrf_token %}
+
+                                    <!-- Container Fluid-->
+                                    <div class="container-fluid" id="container-wrapper">
+                                      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                        <h1 class="h3 mb-0 text-gray-800">Reservations faites par l'IDSI</h1>
+                                      
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-lg-12">
+                                          <!-- Form Basic -->
+                                      
+
+                                        
+                                          <!-- Horizontal Form -->
+                                          <div class="form-row">
+
+                                            <div class="form-group col-md-4">
+                                              <label class="mr-sm-2" for="inlineFormCustomSelect">Salle</label>
+                                              <select name="salle" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                <option value="{{occ.salle.nomSl}}" selected>{{occ.salle.nomSl}}</option>
+                                                {% for sal in sal  %}
+                                                  {% if sal != occ.salle.nomSl %}
+                                                      <option  value='{{sal.nomSl}}'>{{sal.nomSl}}</option>
+                                                  {% endif %}
+
+                                                {% endfor %}
+
+                                                        
+
+
+
+                                              </select>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-4">
+                                              <label class="mr-sm-2" for="inlineFormCustomSelect">Classe</label>
+                                              <select name="classe" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                
+                                                
+                                                <option value="{{occ.utilisateur.nomUt}}" selected>{{occ.utilisateur.nomUt}}</option>
+                                                <option value="Master1_ds">Master1_ds</option>
+                                                <option value="Master2_ds">Master2_ds</option>
+                                                <option value="Master1_csi">Master1_csi</option>
+                                                <option value="Master2_csi">Master2_csi</option>
+
+                                                
+                                              </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                              <label class="mr-sm-2" for="inlineFormCustomSelect">Motif</label>
+                                              <select  name="motif" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                <option value="motif">choisir le motif</option>
+                                                <option value="cours">Cours</option>
+                                                <option value="kaggle">Kaggle</option>
+                                                <option value="tp">TP</option>
+                                                <option value="devoir">Devoir</option>
+                                                <option value="{{occ.activite.nomAt}}" selected>{{occ.activite.nomAt}}</option>
+                                              </select>
+                                              {% if motif_error %}
+                                              <p style="color:red">{{motif_error}}</p>
+                                              {% endif %}
+                                            </div>
+                                          </div>
+                                          <!-- Horizontal Form -->
+                                          <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                              <label class="mr-sm-2" for="inlineFormCustomSelect">Matière</label>
+                                              <select name="matiere" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                
+                                                {% for mat in mat  %}
+                                                <option  value={{mat.nomMt}}>{{mat.nomMt}}</option>
+                                
+                                                {% endfor %}
+                                              </select>
+                                              {% if matiere_error %}
+                                              <p style="color:red">{{matiere_error}}</p>
+                                              {% endif %}
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                              <label class="mr-sm-2" for="inlineFormCustomSelect">Intervenant</label>
+                                            
+                                              <select  name="intervenant" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                <option value="{{occ.activite.intervenantAt}}" selected>{{occ.activite.intervenantAt}}</option>
+                                                <option  value="intervenant">choisir l'intervenant</option>
+                                                <option value="M.KADJO TANON">M.KADJO TANON</option>
+                                                <option value="M.TANON TANON">M.TANON TANON</option>
+                                                <option value="M.ALLA AHUI">M.ALLA AHUI</option>
+                                                <option value="M.MONSAN VINCENT">M.MONSAN VINCENT</option>
+                                                
+                                                
+                                              </select>
+                                              {% if intervenant_error %}
+                                              <p style="color:red">{{intervenant_error}}</p>
+                                              {% endif %}
+                                            </div>
+                                          </div>
+                                
+                                          <div class="form-row ">
+                                          
+                                          <div class='col-md-12'>
+
+                                            <div class="form-group" id="simple-date4">
+                                              <label for="dateRangePicker">Date début/Date fin</label>
+                                              <div class="input-daterange input-group">
+                                                <input type="datetime-local" class="input-sm form-control" name="debut" />
+                                                
+                                                <div class="input-group-prepend">
+                                                  <span class="input-group-text">to</span>
+                                                </div>
+                                                <input type="datetime-local" class="input-sm form-control" name="fin" />
+                                                
+                                              </div>
+                                              {% if datedebut_error or datefin_error or date_error %}
+                                              <p style="color:red"> {{datefin_error}}  {{date_error}} {{datedebut_error}}</p>
+                                              {% endif %}
+                                            </div>
+                                            
+
+
+                                          </div>
+
+                                          </div>
+                                        
+                                          <button type="submit" class="btn btn-primary col-md-12">Valider</button>
+                                        </div>
+
+                                  
+                                            
+                                  
+
+                              
+                                      <!--Row-->
+
+                                      
+
+                                  
+                                    </div>
+                                    <!---Container Fluid-->
+                                  </form> 
+
+                    {% endif %}
+
+                       {% if not occ.activite.matiere %}
+                              <form method="post" action="">
+                                {% csrf_token %}
+                        
+                             <div class="container-fluid" id="container-wrapper">
+                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800">Reservations faites par les autres entités</h1>
+                                   
+                                  </div>
+                          
+                                  <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                      <label for="inputCity">Nom de l'entité</label>
+                                      <input name="entite" type="text" class="form-control" id="inputCity" value="{{occ.utilisateur.nomUt}}">
+                                      {% if string_error %}
+                                      <p style="color:red">{{string_error}}</p>
+                                      {% endif %}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label for="inputState">Salle</label>
+                                      <select  name="salle" id="inputState" class="form-control">
+
+                                        <option  value='{{occ.salle.nomSl}}'>{{occ.salle.nomSl}}</option>
+                                        {% for sal in sal  %}
+                                          <option  value='{{sal.nomSl}}'>{{sal.nomSl}}</option>
+                        
+                                        {% endfor %}
+                                      </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label for="inputZip">Motif</label>
+                                      <input name="motif" type="text" class="form-control" id="inputZip" value="{{occ.activite.nomAt}}"  >
+                                      {% if string_error %}
+                                      <p style="color:red">{{string_error}}</p>
+                                      {% endif %}
+                                    </div>
+                                  </div>
+                        
+                                  <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                      <label for="formGroupExampleInput">Effectif</label>
+                                    <input name="effectif" type="text" class="form-control" id="formGroupExampleInput" value="{{occ.activite.nomAt}}">
+                                    {% if entier_error %}
+                                    <p style="color:red">{{entier_error}}</p>
+                                    {% endif %}  
+                                  </div>
+                                    <div class="form-group col-md-4">
+                                      <label for="inputPassword4">Intervenant</label>
+                                      <input name="nomintervenant" type="type" class="form-control" id="inputPassword4" value="{{occ.activite.intervenantAt}}">
+                                      {% if string_error %}
+                                      <p style="color:red">{{nomintervenant_error}}</p>
+                                      {% endif %}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label for="inputPassword4">Intervenant </label>
+                                      <input name="preintervenant" type="type" class="form-control" id="inputPassword4" placeholder="{{occ.activite.intervenantAt}}">
+                                      {% if string_error %}
+                                      <p style="color:red">{{preintervenant_error}}</p>
+                                      {% endif %}
+                                    </div>
+                                  </div>
+                        
+                                  <div class="form-row">
+                                    <div class='col-md-12'>
+                        
+                                      <div class="form-group" id="simple-date4">
+                                        <label for="dateRangePicker">Date début/Date fin</label>
+                                        <div class="input-daterange input-group">
+                                          
+                                          <input type="datetime-local" class="input-sm form-control" name="debut" />
+                                          
+                                          <div class="input-group-prepend">
+                                           
+                                            <span class="input-group-text">to</span>
+                                          </div>
+                                          <input type="datetime-local" class="input-sm form-control" name="fin" />
+                                          
+                                        </div>
+                                        {% if datedebut_error or datefin_error or date_error %}
+                                        <p style="color:red"> {{datefin_error}}  {{date_error}} {{datedebut_error}}</p>
+                                        {% endif %}
+                                        
+                                      </div>
+                                      
+                                    </div>
+                        
+                        
+                                  </div>
+                        
+                        
+                        
+                              
+                        
+                               
+                        
+                                 
+                          
+                                  <button type="submit" class="btn btn-primary col-md-12">Valider</button>
+                                </div>
+                        
+                               
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                                  <!---Container Fluid-->
+                                </form>
+                        {% endif %}
+
+
+                              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+                              
+                </div>
+              </div>
+            </div>
+
+
+
+            </div>
+
+
+
+        {% endfor %}
+
+
+            {% for occ in occupe %}
+
+            <div class="modal fade"  id="delete{{forloop.counter}}"  tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog  modal-dialog-centered">
+                <div class="modal-content">
+                 
+
+
+                  <div style ="background-color:rgb(173, 10, 10); color:aliceblue" class="modal-header">
+                    <h5 class="modal-title">Attention à la suppression!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span style="color:aliceblue" aria-hidden="true">&times;</span>
+                    </button>
+                    
+                  </div>
+                  <div class="modal-body">
+                    <p>Voulez-vous vraiment supprimer l'élement?</p>
+                  </div>
+                  <div class="modal-footer">
+                    
+                      <button type="button" class="btn " data-dismiss="modal">Fermer</button>
+                      
+                    
+                    <button type="button" class="btn btn-danger"><a href="{% url 'supprimereservation' occ.id %}"> supprimer</a></button>
+                  </div>
+                </div>
+
+
+
+
+                          
+                </div>
+              </div>
+
+            {% endfor   %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

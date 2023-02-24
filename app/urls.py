@@ -13,6 +13,8 @@ urlpatterns = [
    path('idsi',views.idsi, name="idsi"),
    path('autre',views.autre, name="autre"),
    path('encours',views.encours, name="encours"),
+   path('historique',views.historique, name="historique"),
+   path('supprimerreservation/<str:pk>/',views.supprimerreservation, name="supprimereservation"),
    
    
    

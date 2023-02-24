@@ -7,4 +7,5 @@ admin.site.register(Utilisateur),
 admin.site.register(Salle),
 admin.site.register(Activite),
 admin.site.register(Occupe),
-admin.site.register(Matiere)
+admin.site.register(Matiere),
+

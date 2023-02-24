@@ -1,3 +1,0 @@
-1.gerer coté de nom de la classe sur idsi
-2.gere les messages d'erreur
-3.faire les messages de succes apres enregistrement

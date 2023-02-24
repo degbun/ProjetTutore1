@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% block content %}  
+
+
+
+
+
+      <!-- Container Fluid-->
+     
+
+      <div class="container-fluid" id="container-wrapper">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800"></h1>
+     
+        </div>
+
+        <!-- Row -->
+        <div class="row">
+      
+        
+          <!-- DataTable with Hover -->
+          <div class="col-lg-12">
+            <div class="card mb-4">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Historique</h6>
+              </div>
+              <div class="table-responsive p-3">
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Nom de l'utilisateur</th>
+                      <th>Salle occupée</th>
+                      <th>Motif</th>
+                      <th>Status</th>
+                      <th>Date début</th>
+                      <th>Date fin</th>
+                      <th>Action</th>
+                      
+                    </tr>
+                  </thead>
+                 
+                  <tbody>
+                    {%  for occ in encours  %}
+                      
+
+                        <tr>
+                      
+                          <td>{{occ.utilisateur.nomUt}}</td>
+                          <td>{{occ.salle.nomSl}}</td>
+                          <td>{{occ.activite.nomAt}}</td>
+                          <td><span class="badge badge-success">En cours</span></td></td>
+                          <td>{{occ.debut|date:"D d M Y H:i" }}</td>
+                          <td>{{occ.fin|date:"D d M Y H:i" }}</td>
+                          
+                          <td><div class="btn-group" role="group" aria-label="Basic example"> <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#voir{{forloop.counter}}" ><i class="fa-solid fa-eye"></i>
+                              
+                          </div>
+                          </button></td>
+                      
+                        </tr>
+                      {% endfor %}
+
+
+
+
+                      {%  for occ in occupe  %}
+                      
+
+                      <tr>
+                    
+                        <td>{{occ.utilisateur.nomUt}}</td>
+                        <td>{{occ.salle.nomSl}}</td>
+                        <td>{{occ.activite.nomAt}}</td>
+                        <td><span class="badge badge-danger">Terminé</span></td></td>
+                        <td>{{occ.debut|date:"D d M Y H:i" }}</td>
+                        <td>{{occ.fin|date:"D d M Y H:i" }}</td>
+                        
+                        <td><div class="btn-group" role="group" aria-label="Basic example"> <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#voir{{forloop.counter}}" ><i class="fa-solid fa-eye"></i>
+                            
+                        </div>
+                        </button></td>
+                    
+                      </tr>
+                    {% endfor %}
+
+
+
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Row-->
+
+        <!-- Documentation Link -->
+       
+
+        <!-- Modal Logout -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                <a href="login.html" class="btn btn-primary">Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!---Container Fluid-->
+
+      
+        {%  for occ in occupe  %}
+
+
+          <!---modal sur view-->
+            <div class="modal fade" id="voir{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div  style="background-color:rgb(10, 118, 113); color:aliceblue"class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Détails</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <p>  Nom de l'utilisateur: {{occ.utilisateur.nomUt}}</p>
+                    <p>  Salle occupée: {{occ.salle.nomSl}}</p>
+                    <p>  Motif: {{occ.activite.nomAt}}</p>
+                    <p>  Date début: {{occ.debut}}</p>
+                    <p>  Date fin: {{occ.fin}}</p>
+                    <p> Nom de l'intervenant : {{occ.activite.intervenantAt}}</p>
+                    {% if occ.activite.matiere.nomMt %}
+                        <p> Matière : {{occ.activite.matiere.nomMt}}</p>
+                    {% endif%}
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn " data-dismiss="modal">Fermer</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!---modal sur view-->
+
+
+
+
+      
+
+
+           
+            </div>
+
+
+
+
+
+
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+

@@ -27,14 +27,14 @@ class Matiere(models.Model):
     nomMt = models.CharField( max_length=50)
     
     def __str__(self):
-        return self.nomAt
+        return self.nomMt
     
    
 
 class Activite(models.Model):
    
     nomAt = models.CharField( max_length=50)
-    intervenantAt = models.CharField( max_length=50)
+    intervenantAt = models.CharField( max_length=50, null=True)
     salle=models.ManyToManyField(Salle,null=True,through='Occupe')
     utilisateur =models.ManyToManyField(Utilisateur,null=True,through='Occupe')
     matiere=models.ForeignKey(Matiere,on_delete=models.CASCADE,blank=True,null=True)

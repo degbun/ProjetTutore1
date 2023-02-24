@@ -48,14 +48,14 @@
             {% endif %}  
           </div>
             <div class="form-group col-md-4">
-              <label for="inputPassword4">Intervenant</label>
+              <label for="inputPassword4">Nom de l'intervenant</label>
               <input name="nomintervenant" type="type" class="form-control" id="inputPassword4" placeholder="Entrez le nom de l'intervenant">
               {% if string_error %}
               <p style="color:red">{{nomintervenant_error}}</p>
               {% endif %}
             </div>
             <div class="form-group col-md-4">
-              <label for="inputPassword4">Intervenant </label>
+              <label for="inputPassword4"> Prénoms de l'intervenant </label>
               <input name="preintervenant" type="type" class="form-control" id="inputPassword4" placeholder="Entrez le prénoms de l'intervenant">
               {% if string_error %}
               <p style="color:red">{{preintervenant_error}}</p>
@@ -74,7 +74,7 @@
                   
                   <div class="input-group-prepend">
                    
-                    <span class="input-group-text">to</span>
+                    <span class="input-group-text">au</span>
                   </div>
                   <input type="datetime-local" class="input-sm form-control" name="fin" />
                   

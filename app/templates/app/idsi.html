@@ -9,7 +9,7 @@
       <!-- Container Fluid-->
       <div class="container-fluid" id="container-wrapper">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">Reservations faites par l'IDSI</h1>
+          <h1 class="h3 mb-0 text-gray-800">Réservations faites par l'IDSI</h1>
          
         </div>
 
@@ -84,6 +84,9 @@
                   <option value="M.TANON TANON">M.TANON TANON</option>
                   <option value="M.ALLA AHUI">M.ALLA AHUI</option>
                   <option value="M.MONSAN VINCENT">M.MONSAN VINCENT</option>
+                  <option value="M.MONSAN VINCENT">M.MEMEL OFFIA</option>
+                  <option value="M.MONSAN VINCENT">M.SORO</option>
+                  <option value="Miss SORO">Miss SORO</option>
                   
                   
                 </select>
@@ -103,7 +106,7 @@
                   <input type="datetime-local" class="input-sm form-control" name="debut" />
                   
                   <div class="input-group-prepend">
-                    <span class="input-group-text">to</span>
+                    <span class="input-group-text">au</span>
                   </div>
                   <input type="datetime-local" class="input-sm form-control" name="fin" />
                   
@@ -137,15 +140,39 @@
     </form> 
 
     
-    {% for msg in messages  %}
+    {% for message in messages  %}
+
+    
           
-    <div class="alert alert-success col-12" role="alert" id='alert'>
-      {{msg}}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+      {{message}}
     </div>
     {% endfor %}
+    
 
+
+
+
+
+{% if prise %}
+<div style="color:red">{{prise}}</div>
+{%  endif %}
 
 
 
 
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
